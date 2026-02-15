@@ -1,4 +1,3 @@
-// server.js
 const express = require('express');
 const http = require('http');
 const path = require('path');
@@ -42,4 +41,3 @@ io.on('connection', (socket) => {
 
 // تشغيل السيرفر
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-  
