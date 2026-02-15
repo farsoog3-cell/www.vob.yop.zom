@@ -1,3 +1,4 @@
+// server.js
 const express = require('express');
 const http = require('http');
 const path = require('path');
@@ -19,13 +20,12 @@ const storage = multer.diskStorage({
     cb(null, dir);
   },
   filename: (req, file, cb) => {
-    const name = 'capture_' + Date.now() + '.png';
-    cb(null, name);
+    cb(null, 'capture_' + Date.now() + '.png');
   }
 });
 const upload = multer({ storage });
 
-// استضافة الملفات الثابتة
+// استضافة الملفات الثابتة من مجلد public
 app.use(express.static(path.join(__dirname, 'public')));
 
 // استقبال الصورة من العميل وحفظها على السيرفر
@@ -37,10 +37,9 @@ app.post('/upload', upload.single('image'), (req, res) => {
 // Socket.io للتواصل اللحظي (اختياري)
 io.on('connection', (socket) => {
   console.log('User connected');
-
-  socket.on('disconnect', () => {
-    console.log('User disconnected');
-  });
+  socket.on('disconnect', () => console.log('User disconnected'));
 });
 
+// تشغيل السيرفر
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  
